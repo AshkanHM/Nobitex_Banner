@@ -393,12 +393,12 @@ body {
     
     <div class="stat-box">
       <div class="stat-value" id="highest-price">٠٠,٠٠٠,٠٠٠ ریال</div>
-      <div class="stat-label">بالاترین قیمت</div>
+      <div class="stat-label">بالاترین قیمت (تومان)</div>
     </div>
     
     <div class="stat-box">
       <div class="stat-value" id="lowest-price">٠٠,٠٠٠,٠٠٠ ریال</div>
-      <div class="stat-label">پایین‌ترین قیمت</div>
+      <div class="stat-label">پایین‌ترین قیمت (تومان)</div>
     </div>
   </div>
   
@@ -483,8 +483,8 @@ function updateStatsDisplay(prices) {
   const highestPrice = Math.max(...prices);
   const lowestPrice = Math.min(...prices);
   
-  document.getElementById('highest-price').textContent = `${formatNumber(highestPrice * tomanRate)} تومان`;
-  document.getElementById('lowest-price').textContent = `${formatNumber(lowestPrice * tomanRate)} تومان`;
+  document.getElementById('highest-price').textContent = `${formatNumber(highestPrice * tomanRate)}`;
+  document.getElementById('lowest-price').textContent = `${formatNumber(lowestPrice * tomanRate)}`;
 }
 
 // Initialize the chart with loading state
