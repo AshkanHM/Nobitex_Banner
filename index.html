@@ -509,17 +509,7 @@ function initChart() {
 // Fetch all historical data at once
 async function fetchAllHistoricalData() {
   document.getElementById('loading').style.display = 'flex';
-      await fetchFromAlternativeAPI();
-    }
-  } catch (error) {
-    console.error('Error fetching historical data from all sources:', error);
-    document.getElementById('loading').textContent = 'خطا در بارگذاری داده‌ها';
-    useStaticPrice();
-  }
-}
-
-// Fallback to alternate API (CoinCap)
-async function fetchFromAlternativeAPI() {
+  
   try {
     // Get current price from CoinCap
     const currentResponse = await fetch('https://api.coincap.io/v2/assets/bitcoin');
@@ -552,10 +542,12 @@ async function fetchFromAlternativeAPI() {
     
     document.getElementById('loading').style.display = 'none';
   } catch (error) {
-    console.error('Error fetching from alternative API:', error);
-    throw error;
+    console.error('Error fetching historical data:', error);
+    document.getElementById('loading').textContent = 'خطا در بارگذاری داده‌ها';
+    useStaticPrice();
   }
 }
+
 
 // Process CoinCap data
 function processCoinCapData(data, timeframe) {
@@ -575,47 +567,6 @@ function processCoinCapData(data, timeframe) {
   return { labels, prices, timestamps };
 }
 
-// Helper function to fetch data from CoinGecko for a specific timeframe
-async function fetchCoinGeckoData(days) {
-  try {
-    const response = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${days}&interval=hourly`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'x-requested-with': 'XMLHttpRequest'  // Sometimes helps with CORS
-      }
-    });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error(`Error fetching ${days} day data:`, error);
-    throw error;
-  }
-}
-
-// Process CoinGecko data for a specific timeframe
-function processCoinGeckoData(data, timeframe) {
-  const labels = [];
-  const prices = [];
-  const timestamps = [];
-  
-  // CoinGecko returns prices array with [timestamp, price] format
-  data.prices.forEach(item => {
-    const timestamp = item[0];
-    const price = item[1];
-    
-    timestamps.push(timestamp);
-    labels.push(formatDate(timestamp, timeframe));
-    prices.push(price);
-  });
-  
-  return { labels, prices, timestamps };
-}
 
 // Switch to display different timeframe data
 function displayTimeframe(timeframe) {
@@ -660,15 +611,10 @@ function useStaticPrice() {
   
   document.getElementById('price-equivalent').textContent += '';
 }
-// Fetch Toman rate from Nobitex API
-async function fetchTomanRate() {
-  }
+
 
 // Initialize everything when page loads
-window.onload = async function() {
-  // Fetch Toman rate first
-  await fetchTomanRate();
-  
+window.onload = function() {
   // Set up the chart
   initChart();
   
