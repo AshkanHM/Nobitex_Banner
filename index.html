@@ -606,46 +606,6 @@ function useStaticPrice() {
   document.getElementById('price-equivalent').textContent += '';
 }
 
-// Fetch Toman rate from Nobitex API
-async function fetchTomanRate() {
-//  try {
-    // Since we're facing CORS issues, we'll use a different approach
-    // Option 1: Try with specific headers that might help with CORS
-//    const response = await fetch('https://api.nobitex.ir/market/stats?srcCurrency=usdt&dstCurrency=rls', {
-//     method: 'GET',
-//      headers: {
-//        'Accept': 'application/json',
-//        'Origin': 'https://nobitex.ir',
-//       'Referer': 'https://nobitex.ir/'
-//      },
-//      mode: 'cors',
-//      credentials: 'same-origin'
-//    });
-//    
-//    if (!response.ok) {
-//      console.error('Failed to fetch Toman rate from Nobitex API');
-//      return;
-//    }
-    
-//    const data = await response.json();
-//    if (data && data.stats && data.stats['usdt-rls'] && data.stats['usdt-rls'].bestSell) {
-      // Get the "bestSell" value and convert to Toman (divide by 10)
-//      const rialRate = parseInt(data.stats['usdt-rls'].bestSell);
-//      tomanRate = rialRate / 10;
-//      console.log('Toman rate updated from Nobitex API:', tomanRate);
-//    } else {
-//      console.error('Invalid data format from Nobitex API', data);
-//    }
-//  } catch (error) {
-//    console.error('Error fetching Toman rate:', error);
-    // Keep using the default rate
-    
-    // If the above approach fails with CORS errors, you'll need to:
-    // 1. Create a server-side proxy that makes the request for you
-    // 2. Or use a service like cors-anywhere (not recommended for production)
-    // 3. Or set up a scheduled task to fetch and store the rate in a file/database
-  }
-
 // Initialize everything when page loads
 window.onload = async function() {
   // Fetch Toman rate first
