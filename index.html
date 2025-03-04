@@ -509,34 +509,6 @@ function initChart() {
 // Fetch all historical data at once
 async function fetchAllHistoricalData() {
   document.getElementById('loading').style.display = 'flex';
-  
-  try {
-    // Try CoinGecko API first
-    try {
-      // Fetch data for all timeframes in parallel using CoinGecko
-      const [dayData, weekData, monthData] = await Promise.all([
-        fetchCoinGeckoData(1), // 1 day (24h)
-        fetchCoinGeckoData(7), // 7 days (week)
-        fetchCoinGeckoData(30) // 30 days (month)
-      ]);
-      
-      // Process and store data for each timeframe
-      allPriceData.day = processCoinGeckoData(dayData, 'day');
-      allPriceData.week = processCoinGeckoData(weekData, 'week');
-      allPriceData.month = processCoinGeckoData(monthData, 'month');
-      
-      // Update price display with latest price
-      const latestPrice = allPriceData.day.prices[allPriceData.day.prices.length - 1];
-      currentPrice = latestPrice;
-      updatePriceDisplay(latestPrice);
-      
-      // Display initial timeframe (day)
-      displayTimeframe('day');
-      
-      document.getElementById('loading').style.display = 'none';
-    } catch (coinGeckoError) {
-      // If CoinGecko fails, try alternate API (CoinCap)
-      console.log("CoinGecko API failed, trying alternative API:", coinGeckoError);
       await fetchFromAlternativeAPI();
     }
   } catch (error) {
